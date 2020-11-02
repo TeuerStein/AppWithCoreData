@@ -8,9 +8,32 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.managedObjectContext) var manageObjectContext
+    @FetchRequest(fetchRequest: ToDoItem.getAllToDoItems()) var toDoItems: FetchedResults<ToDoItem>
+    
+    @State private var newToDoItem = ""
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView {
+            List {
+                Section(header: Text("What's next?")) {
+                    HStack {
+                        TextField("New item", text: self.$newToDoItem)
+                        
+                        Button(action: {
+                            
+                        }) {
+                            Image(systemName: "plus.circle.fill")
+                                .foregroundColor(.green)
+                                .imageScale(.large)
+                        }
+                    }
+                }
+                    .font(.headline)
+            }
+        }
+            .navigationBarTitle(Text("My list"))
+            .navigationBarItems(leading: EditButton())
     }
 }
 
