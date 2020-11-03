@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 public class ToDoItem: NSManagedObject, Identifiable {
-    @NSManaged public var created: Date?
+    @NSManaged public var createdAt: Date?
     @NSManaged public var title: String?
 }
 

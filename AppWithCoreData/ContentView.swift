@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) var manageObjectContext
+    @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: ToDoItem.getAllToDoItems()) var toDoItems: FetchedResults<ToDoItem>
     
     @State private var newToDoItem = ""
@@ -21,7 +21,17 @@ struct ContentView: View {
                         TextField("New item", text: self.$newToDoItem)
                         
                         Button(action: {
+                            let toDoItem = ToDoItem(context: self.managedObjectContext)
+                            toDoItem.title = self.newToDoItem
+                            toDoItem.createdAt = Date()
                             
+                            do {
+                                try self.managedObjectContext.save()
+                            } catch {
+                                print(error)
+                            }
+                            
+                            self.newToDoItem = ""
                         }) {
                             Image(systemName: "plus.circle.fill")
                                 .foregroundColor(.green)
@@ -31,9 +41,9 @@ struct ContentView: View {
                 }
                     .font(.headline)
             }
+                .navigationBarTitle(Text("My list"))
+                .navigationBarItems(leading: EditButton())
         }
-            .navigationBarTitle(Text("My list"))
-            .navigationBarItems(leading: EditButton())
     }
 }
 
