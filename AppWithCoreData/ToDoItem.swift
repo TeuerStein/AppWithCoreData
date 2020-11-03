@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 
+@objc(ToDoItem)
 public class ToDoItem: NSManagedObject, Identifiable {
     @NSManaged public var createdAt: Date?
     @NSManaged public var title: String?
@@ -16,11 +17,11 @@ public class ToDoItem: NSManagedObject, Identifiable {
 extension ToDoItem {
     static func getAllToDoItems() -> NSFetchRequest<ToDoItem> {
         let request: NSFetchRequest<ToDoItem> = ToDoItem.fetchRequest() as! NSFetchRequest<ToDoItem>
-        
-        let sortDescriptor = NSSortDescriptor(key: "createAt", ascending: true)
-        
+
+        let sortDescriptor = NSSortDescriptor(key: "createdAt", ascending: true)
+
         request.sortDescriptors = [sortDescriptor]
-        
+
         return request
     }
 }
